@@ -1,0 +1,17 @@
+<?xml version="1.0"?>
+<launch>
+	
+	<!-- doc Starts the video recorder for all cameras in the simulation and saves them at 30 fps under vacuum_bot/videos -->    
+	
+	<!-- Uncomment to enable front camera capture-->
+	<!--	<node pkg="image_view" name="video_recorder_front" type="video_recorder" output="screen" args="image:=/vacuum_bot/camera_front/image_raw _fps:=30 _filename:=$(find vacuum_bot)/videos/cam_front.avi"/> -->
+
+	<node pkg="image_view" name="video_recorder_end" type="video_recorder" output="screen" args="image:=/vacuum_bot/camera_end/image_raw _fps:=30 _filename:=$(find vacuum_bot)/videos/cam_end.avi _codec=DIVX"/>
+
+	<node pkg="image_view" name="video_recorder_bird" type="video_recorder" output="screen" args="image:=/vacuum_bot/camera_bird/image_raw _fps:=30 _filename:=$(find vacuum_bot)/videos/cam_bird.avi _codec=DIVX"/>
+	
+	<node pkg="image_view" name="video_recorder_guided" type="video_recorder" output="screen" args="image:=/vacuum_bot/camera_guide/image_raw _fps:=30 _filename:=$(find vacuum_bot)/videos/cam_guide.avi _codec=DIVX"/>
+	
+	<node pkg="image_view" name="video_recorder_static" type="video_recorder" output="screen" args="image:=/vacuum_bot/camera_static/image_raw _fps:=30 _filename:=$(find vacuum_bot)/videos/cam_static.avi _codec=X264"/>
+
+</launch>

@@ -1,0 +1,172 @@
+<?xml version="1.0" ?>
+
+<robot name="vacuum_bot_macros" xmlns:xacro="http://www.ros.org/wiki/xacro">
+
+	<xacro:include filename="$(find vacuum_bot)/urdf/vacuum_bot_properties.xacro"/>
+	
+	<!-- wheel macro -->
+	<xacro:macro name="wheel" params="name xyz:='0 0 0' rpy:='0 0 0' mass:='0.0482' parent joint_xyz joint_rpy act_type:='fixed'">
+		<link name="${name}">
+			<visual>
+				<origin xyz="${xyz}" rpy="${rpy}"/>
+        			<geometry>
+          				<mesh filename="${wheel_mesh}"/>
+        			</geometry>
+      			</visual>
+
+      			<collision>
+        			<geometry>
+	       				<cylinder length="0.005" radius="0.03"/>
+        			</geometry>
+				<origin xyz="${xyz}" rpy="${rpy}"/>
+      			</collision>
+
+			<inertial>
+				<mass value="${mass}" />
+				<origin xyz="${xyz}" />
+				<inertia ixx="3.745e-7" ixy="6.657e-7" ixz="3.28e-7" iyy="3.28e-7" iyz="3.745e-7" izz="6.657e-7"/>
+			</inertial>
+		</link>
+
+		<joint name="${parent}_${name}_joint" type="${act_type}">
+      			<axis xyz="0 0 1" rpy="0 0 0"/>
+			<origin xyz="${joint_xyz}" rpy="${joint_rpy}"/>
+			<parent link="${parent}"/>
+			<child link="${name}"/>
+    		</joint>
+	</xacro:macro>
+
+	<!-- macro for fast collision box primitive (lots of them in the model) -->
+	
+	<xacro:macro name="collision_box" params="size xyz:='0 0 0' rpy:='0 0 0'">
+		<collision>
+			<geometry>
+				<box size="${size}"/>
+			</geometry>
+			<origin xyz="${xyz}"/>
+		</collision>
+	</xacro:macro>
+
+	<!-- macro for fast collision cylinder primitive (lots of them in the model) -->
+
+	<xacro:macro name="collision_cylinder" params="radius length xyz:='0 0 0' rpy:='0 0 0'">
+		<collision>
+			<geometry>
+				<cylinder radius="${radius}" length="${length}"/>
+			</geometry>
+			<origin xyz="${xyz}" rpy="${rpy}"/>
+		</collision>
+	</xacro:macro>
+	
+	<!-- macro for the camera models -->
+	<xacro:macro name="camera_model" params="name xyz rpy:='0 0 0'">
+		<link name="${name}">
+			<visual>
+        			<origin xyz="0 0 0" rpy="0 0 0"/>
+        			<geometry>
+          				<mesh filename="${camera_mesh}"/>
+        			</geometry>
+      			</visual>
+      			<collision>
+        			<origin xyz="0 0 0" rpy="0 0 0"/>
+        			<geometry>
+          				<mesh filename="${camera_mesh}"/>
+        			</geometry>
+      			</collision>
+      			<inertial>
+        			<mass value="0.01"/>
+        			<inertia ixx="0.01" ixy="0" ixz="0" iyy="0.01" iyz="0" izz="0"/>
+      			</inertial>
+    		</link>
+		
+		<joint name="${name}_joint" type="fixed">
+			<axis xyz="1 0 0" rpy="0 0 0"/>
+			<origin xyz="${xyz}" rpy="${rpy}"/>
+			<child link="${name}"/>
+      			<parent link="base_footprint"/>
+		</joint>
+	</xacro:macro>
+
+	<!-- macro for the recording cameras -->
+	<xacro:macro name="camera_rec" params="name xyz:='0 0 0' rpy:='0 0 0' parent">
+		<link name="${name}_link"/>
+
+		<joint name="${name}_joint" type="fixed">
+        		<axis xyz="1 0 0" rpy="0 0 0"/>
+			<origin xyz="${xyz}" rpy="${rpy}"/>
+			<parent link="${parent}"/>
+			<child link="${name}_link"/>
+    		</joint>
+
+		<gazebo reference="${name}_link">
+			<sensor type="camera" name="${name}">
+                		<update_rate>50</update_rate>
+                		<camera name="head">
+                        		<horizontal_fov>1.3962634</horizontal_fov>
+                        		<image>
+                                		<width>1920</width>
+                                		<height>1080</height>
+                                		<format>R8G8B8</format>
+                        		</image>
+                        		<clip>
+                                		<near>0.01</near>
+                                		<far>300</far>
+                        		</clip>
+                		</camera>
+                		<plugin name="camera_controller" filename="libgazebo_ros_camera.so">
+                        		<alwaysOn>true</alwaysOn>
+                        		<updateRate>0.0</updateRate>
+					<cameraName>vacuum_bot/${name}</cameraName>
+                        		<imageTopicName>image_raw</imageTopicName>
+                        		<cameraInfoTopicName>camera_info</cameraInfoTopicName>
+                        		<frameName>camera_link</frameName>
+                        		<hackBaseline>0.07</hackBaseline>
+                        		<distortionK1>0.0</distortionK1>
+                        		<distortionK2>0.0</distortionK2>
+                        		<distortionK3>0.0</distortionK3>
+                        		<distortionT1>0.0</distortionT1>
+                        		<distortionT2>0.0</distortionT2>
+                		</plugin>
+         		</sensor>
+    		</gazebo>
+	</xacro:macro>
+
+	<!-- Gazebo transmission_block macro -->
+
+        <xacro:macro name="transmission_block" params="joint_name interface_type:='PositionJointInterface'"> 
+		<transmission name="trans_${joint_name}"> 
+                        <type>transmission_interface/SimpleTransmission</type> 
+                        <joint name="${joint_name}"> 
+				<hardwareInterface>hardware_interface/${interface_type}</hardwareInterface> 
+                        </joint> 
+			<actuator name="${joint_name}_motor">
+				<hardwareInterface>hardware_interface/${interface_type}</hardwareInterface>	
+                                <mechanicalReduction>1</mechanicalReduction>
+                        </actuator> 
+                </transmission>
+        </xacro:macro>  
+
+        <!-- Macro for initiallizing the ros_control plugin -->
+
+        <xacro:macro name="ros_control_plugin" params="ns:=''">
+                <gazebo>
+                        <plugin name="gazebo_ros_control" filename="libgazebo_ros_control.so">
+				<robotNamespace>${ns}</robotNamespace>
+                        </plugin>
+                </gazebo>
+        </xacro:macro>
+
+	<!-- macro for odometry publishing -->
+
+	<xacro:macro name="gazebo_p3d" params="body_name:='base_footprint' odom_topic:='vacuum_bot/odom' update_rate:='500'">
+		<gazebo>
+  			<plugin name="ground_truth" filename="libgazebo_ros_p3d.so">
+    				<frameName>map</frameName>
+				<bodyName>${body_name}</bodyName>
+				<topicName>${odom_topic}</topicName>
+				<updateRate>${update_rate}</updateRate>
+  			</plugin>
+		</gazebo>
+	</xacro:macro>
+
+</robot>

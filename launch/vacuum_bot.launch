@@ -1,0 +1,11 @@
+<?xml version="1.0"?>
+<launch>
+	<!-- doc Main launch file of the package. Starts a Gazebo sim of my_flat, loads the controllers and starts the MoveIt! group to control the arm. -->
+
+	<!-- Launch Gazebo sim -->
+	<include file="$(find vacuum_bot_gazebo)/launch/my_flat.launch"/>
+	
+	<!-- Waits for gazebo to come up before starting the controllers and MoveIt! to avoid controller spawner interface errors. -->		
+	<node pkg="vacuum_bot" name="ordered_launch" type="ordered_launch.py" output="screen"/>
+
+</launch>

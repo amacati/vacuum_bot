@@ -1,0 +1,10 @@
+<?xml version="1.0"?>
+<launch>
+	<!-- doc Launches RVIZ to visualize the vacuum robot -->	
+	<!-- RVIZ to visualize the robot -->
+	<include file="$(find vacuum_bot_moveit_config)/launch/moveit_rviz.launch">
+	  <arg name="config" value="true"/>
+	  <arg name="required" value="false"/>
+	</include>
+
+</launch>

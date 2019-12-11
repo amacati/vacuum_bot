@@ -1,0 +1,14 @@
+<?xml version="1.0"?>
+<launch>
+	<!-- doc Loads the controllers into Gazebo and starts the MoveIt! group to control the arm -->
+
+	<!-- Launch Gazebo sim controllers-->
+	<include file="$(find vacuum_bot)/launch/gazebo_control.launch"/>
+		
+	<!-- Launch the MoveIt! move group -->
+	<include file="$(find vacuum_bot)/launch/moveit.launch"/>
+	
+	<!-- Launch RVIZ -->        
+	<include file="$(find vacuum_bot)/launch/rviz.launch"/>
+	
+</launch>

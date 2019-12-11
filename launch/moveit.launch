@@ -1,0 +1,14 @@
+<?xml version="1.0" ?>
+<launch>
+	<!-- doc Start MoveIt! with the configuration in vacuum_bot_moveit_config -->
+
+	<!-- Main MoveIt executable -->
+	<include file="$(find vacuum_bot_moveit_config)/launch/move_group.launch">
+		<arg name="allow_trajectory_execution" value="true"/>		    
+		<arg name="fake_execution" value="false"/>
+		<arg name="info" value="true"/>
+		<arg name="debug" value="false"/>
+		<arg name="pipeline" value="ompl"/>
+	</include>
+
+</launch>

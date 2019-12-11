@@ -1,0 +1,7 @@
+<?xml version="1.0"?>
+<launch>
+	<!-- doc Loads the robot description file -->	
+	
+	<param name="robot_description" command="$(find xacro)/xacro $(find vacuum_bot)/urdf/vacuum_bot.urdf.xacro"/>
+	
+</launch>

@@ -1,0 +1,29 @@
+<?xml version="1.0" ?>
+<launch>
+
+  <!-- doc Spawns the vacuum bot in Gazebo and initializes controllers -->    
+ 
+  <!-- Load the bot -->
+
+  <include file="$(find vacuum_bot)/launch/description.launch"/>
+  
+  <!-- Load joint controller from yaml file -->
+
+  <rosparam file="$(find vacuum_bot_moveit_config)/config/gazebo_controller.yaml" command="load"/>
+
+  <node name="gazebo_model_spawner" pkg="gazebo_ros" type="spawn_model" args="-urdf -param robot_description -model vacuum_bot -x 0.2 -y 3.4 -J vacuum_bot::lower_upper_joint 2 -unpause" respawn="false" output="screen" />
+  
+  <!-- Load the controllers -->
+
+  <node name="controller_spawner" pkg="controller_manager" type="spawner" respawn="false" output="screen" ns="vacuum_bot" args="
+	  joint_state_controller
+	  arm_controller"/>
+
+  <!-- Publish robot state -->
+  <rosparam param="use_sim_time">true</rosparam>
+
+  <node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher" required="true" respawn="false" output="screen">	  
+	  <remap from="/joint_states" to="vacuum_bot/joint_states"/>
+  </node>
+
+</launch>

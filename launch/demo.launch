@@ -1,0 +1,25 @@
+<?xml version="1.0"?>
+<launch>
+
+        <!-- doc Visualizes models inside the vacuum_bot package in RViz, with joint controls. Useful for model checking --> 
+        
+        <arg name="model" default="vacuum_bot.urdf.xacro" doc="Name of the .xacro file inside the vacuum_bot package you want to demo in rviz."/>
+        <param name="robot_description" command="$(find xacro)/xacro $(find vacuum_bot)/urdf/$(arg model)"/>
+	<param name="use_gui" value="true"/>
+      
+	<!-- set use sim time to false to enable tf in rviz -->	
+
+	<rosparam param="use_sim_time">false</rosparam> 
+        
+        <!-- Launch robot_state_publisher/joint_state_publisher for tf data and joint control -->
+
+        <node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher" respawn="true" output="screen"/>
+        
+	<node name="joint_state_publisher" pkg="joint_state_publisher" type="joint_state_publisher"/>
+
+        <!-- Launch RViz for visualization -->
+
+        <node name="rviz" pkg="rviz" type="rviz" args="-d $(find vacuum_bot)/rviz/demo.rviz" required="true"/>
+
+</launch>
+

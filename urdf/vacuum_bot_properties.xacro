@@ -1,0 +1,48 @@
+<?xml version="1.0" ?>
+
+<!-- useful properties and constants -->
+
+<robot name="xacro_properties" xmlns:xacro="http://www.ros.org/wiki/xacro">
+	<!-- math constants -->
+
+	<xacro:property name="PI" value="3.14159265" />
+	
+	<!-- robot properties -->
+
+	<xacro:property name="base_mesh" value="package://vacuum_bot/urdf/meshes/base_tex.dae"/>
+	<xacro:property name="base_collision" value="package://vacuum_bot/urdf/meshes/base_collision.dae"/>
+	
+	<xacro:property name="wheel_mesh" value="package://vacuum_bot/urdf/meshes/wheel_tex.dae"/>
+	
+	<xacro:property name="wheelturn_mesh" value="package://vacuum_bot/urdf/meshes/wheel_plate.dae"/>
+	
+	<xacro:property name="z_mesh" value="package://vacuum_bot/urdf/meshes/z_link_tex.dae"/>
+	
+	<xacro:property name="base_z_effort" value="1000.0"/>
+	<xacro:property name="base_z_vel" value="0.5"/>
+	<xacro:property name="base_z_lower" value="-${PI}"/>
+	<xacro:property name="base_z_upper" value="${PI}"/>
+
+	<xacro:property name="lower_mesh" value="package://vacuum_bot/urdf/meshes/lower_arm_tex.dae"/>
+	
+	<xacro:property name="z_lower_effort" value="1000.0"/>
+	<xacro:property name="z_lower_vel" value="0.5"/>
+	<xacro:property name="z_lower_lower" value="-${PI}"/>
+	<xacro:property name="z_lower_upper" value="${PI}"/>	
+	
+	<xacro:property name="upper_mesh" value="package://vacuum_bot/urdf/meshes/upper_arm_tex.dae"/>
+	
+	<xacro:property name="lower_upper_effort" value="1000.0"/>
+	<xacro:property name="lower_upper_vel" value="0.5"/>
+	<xacro:property name="lower_upper_lower" value="-${PI}"/> 
+	<xacro:property name="lower_upper_upper" value="${PI}"/>
+	
+	<xacro:property name="end_mesh" value="package://vacuum_bot/urdf/meshes/end_effector_tex.dae"/> 
+	
+	<xacro:property name="upper_end_effort" value="1000.0"/>
+	<xacro:property name="upper_end_vel" value="1"/>
+	<xacro:property name="upper_end_lower" value="-${PI}"/> 
+	<xacro:property name="upper_end_upper" value="${PI}"/>
+
+	<xacro:property name="camera_mesh" value="package://vacuum_bot/urdf/meshes/camera.dae"/>	
+</robot>

@@ -1,0 +1,14 @@
+<?xml version="1.0" ?>
+<launch>
+
+	<!-- doc Launch file for scene capturing. ObjectSyncer provides pseudo object grapping. TFPub publishes odometry tf data. CameraGuiding guides a camera in the simulation. scene_execution executes the scenes from the scene descriptions in the vacuum_bot/demo/scene/ folder in gazebo. -->
+
+  <node pkg="vacuum_bot" name="object_grabber" type="ObjectGrabber.py" output="screen"/>
+
+  <node pkg="vacuum_bot" name="tf_pub" type="TFPub.py" output="screen"/>
+
+  <node pkg="vacuum_bot" name="camera_guiding" type="CameraGuiding.py" output="screen"/>
+
+  <node pkg="vacuum_bot" name="scene_executioner" type="scene_execution.py" output="screen"/>
+
+</launch>

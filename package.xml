@@ -1,0 +1,37 @@
+<package format="2">
+	
+  <name>vacuum_bot</name>
+  <version>1.0.0</version>
+  <description>
+	  Package containing the vacuum_bot.
+  </description>
+  <author email="martin.schuck@tum.de">Martin Schuck</author>
+  <maintainer email="martin.schuck@tum.de">Martin Schuck</maintainer>
+
+  <license>BSD</license>
+
+  <url type="website">https://gitlab.lrz.de/ga87kov/rovi-bachelorarbeit</url>
+
+  <buildtool_depend>catkin</buildtool_depend>
+  <exec_depend>vacuum_bot_moveit_config</exec_depend>
+  <exec_depend>vacuum_bot_gazebo</exec_depend>
+  <exec_depend>tf2_ros</exec_depend>
+  <exec_depend>image_view</exec_depend> 
+
+  <depend>urdf</depend>
+  <depend>xacro</depend>
+  <depend>gazebo_ros</depend>
+  <depend>robot_state_publisher</depend>
+  <depend>joint_state_publisher</depend>
+  <depend>rviz</depend>
+  <depend>tf</depend>
+  <depend>controller_manager</depend>
+  <depend>moveit_ros_move_group</depend>
+  <depend>rospy</depend>
+  <depend>moveit_commander</depend>
+  <depend>moveit_ros_planning_interface</depend>
+  
+  <!-- All python dependencies not covered by the above ROS dependencies -->
+  <exec_depend>python-time</exec_depend>
+
+</package>
